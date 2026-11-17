@@ -1,0 +1,45 @@
+CREATE TABLE user (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    password_hash VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE captchas_type (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    type_name VARCHAR(50) NOT NULL UNIQUE, 
+    description TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE captchas (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER NOT NULL,
+    captcha_type_id INTEGER NOT NULL,
+    challenge_data TEXT, 
+    solution VARCHAR(255) NOT NULL, 
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    changed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE,
+    FOREIGN KEY (captcha_type_id) REFERENCES captchas_type(id) ON DELETE CASCADE
+);
+
+CREATE TABLE captchas_image(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    captcha_id INTEGER NOT NULL, 
+    image_path VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (captcha_id) REFERENCES captchas(id) ON DELETE CASCADE
+);
+
+CREATE TABLE publicacao(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER NOT NULL,
+    captcha_id INTEGER NOT NULL, 
+    title VARCHAR(100) NOT NULL,
+    description TEXT, 
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE,
+    FOREIGN KEY (captcha_id) REFERENCES captchas(id) ON DELETE CASCADE
+);
