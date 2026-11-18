@@ -5,16 +5,26 @@ A CAPTCHAS GEN project.
 ## Structure
 
 ```
-QRCODE-GEN/
+CAPTCHASGEN/
 ├── client/
-   ├── src/
-      ├── __init__.py
-│      └── app.py
-├── database/
-│  
-├── tests/
-│   ├── __init__.py
+│   ├── src/
+│   │   ├── app.py             # Ponto de entrada
+│   │   ├── captcha/
+│   │   │   └── generator.py   # Cria a imagem e desenha o texto
+│   │   ├── config/
+│   │   │   └── settings.py    # Tamanhos, cores, texto, pasta de saída
+│   │   ├── storage/
+│   │   │   └── file_storage.py# Guarda a imagem em PNG
+│   │   └── utils/
+│   │       └── colors.py      # Cores aleatórias
+│   └── output/                # Imagens geradas (ignorada pelo git)
+├── database/                  # Base de dados (por implementar)
+├── tests/                     # Mesma estrutura que client/src/
+│   ├── captcha/
+│   ├── storage/
+│   ├── utils/
 │   └── test_app.py
+├── pytest.ini                 # Diz ao pytest para importar a partir de client/
 ├── requirements.txt
 ├── .gitignore
 └── README.md
@@ -31,6 +41,7 @@ pip install -r requirements.txt
 ## Run
 
 ```bash
+cd client
 python -m src.app
 ```
 
