@@ -1,3 +1,4 @@
+"""Menu"""
 def menu():
   
     print(r"""
@@ -11,8 +12,8 @@ def menu():
                     |_| Maker""") 
     
     print("")                   
-    print("ESCOLHA 1 - Iniciar Sessão")
-    print("ESCOLHA 2 - Criar Conta") 
-    print("ESCOLHA 3 - Sair")
-    opcao=input("Escolha uma opção: ") 
-    return opcao
+    print("OPTION 1 - Log In")
+    print("OPTION 2 - Create Account") 
+    print("OPTION 3 - Exit")
+    option = input("Choose an option: ") 
+    return option
