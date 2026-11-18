@@ -1,4 +1,6 @@
-CREATE TABLE user (
+PRAGMA foreign_keys = ON;
+
+CREATE TABLE IF NOT EXISTS user (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     username VARCHAR(50) NOT NULL UNIQUE,
     email VARCHAR(100) NOT NULL UNIQUE,
@@ -6,39 +8,41 @@ CREATE TABLE user (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE captchas_type (
+CREATE TABLE IF NOT EXISTS captchas_type (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    type_name VARCHAR(50) NOT NULL UNIQUE, 
+    type_name VARCHAR(50) NOT NULL UNIQUE,
     description TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE captchas (
+CREATE TABLE IF NOT EXISTS captchas (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER NOT NULL,
     captcha_type_id INTEGER NOT NULL,
-    challenge_data TEXT, 
-    solution VARCHAR(255) NOT NULL, 
+    name VARCHAR(100) NOT NULL,
+    difficulty VARCHAR(20) NOT NULL,
+    challenge_data TEXT,
+    solution VARCHAR(255) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     changed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE,
-    FOREIGN KEY (captcha_type_id) REFERENCES captchas_type(id) ON DELETE CASCADE
+    FOREIGN KEY (captcha_type_id) REFERENCES captchas_type(id) ON DELETE RESTRICT
 );
 
-CREATE TABLE captchas_image(
+CREATE TABLE IF NOT EXISTS captchas_image (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    captcha_id INTEGER NOT NULL, 
+    captcha_id INTEGER NOT NULL,
     image_path VARCHAR(255) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (captcha_id) REFERENCES captchas(id) ON DELETE CASCADE
 );
 
-CREATE TABLE publicacao(
+CREATE TABLE IF NOT EXISTS publicacao (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER NOT NULL,
-    captcha_id INTEGER NOT NULL, 
+    captcha_id INTEGER NOT NULL,
     title VARCHAR(100) NOT NULL,
-    description TEXT, 
+    description TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE,
     FOREIGN KEY (captcha_id) REFERENCES captchas(id) ON DELETE CASCADE
