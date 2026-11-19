@@ -11,7 +11,7 @@ def main():
         if option=="1":
             session=log_in()
             if session is not None:
-                print("Acess granted")
+                print("Access granted")
         elif option=="2":
             create_account()
         elif option=="3":
