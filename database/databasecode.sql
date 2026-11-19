@@ -56,3 +56,11 @@ WHEN NEW.changed_at IS OLD.changed_at
 BEGIN
     UPDATE captchas SET changed_at = CURRENT_TIMESTAMP WHERE id = NEW.id;
 END;
+
+-- Índices nas chaves estrangeiras: o SQLite não os cria sozinho e sem eles
+-- as pesquisas por utilizador/captcha e os ON DELETE CASCADE percorrem a tabela toda
+CREATE INDEX IF NOT EXISTS idx_captchas_user_id ON captchas(user_id);
+CREATE INDEX IF NOT EXISTS idx_captchas_captcha_type_id ON captchas(captcha_type_id);
+CREATE INDEX IF NOT EXISTS idx_captchas_image_captcha_id ON captchas_image(captcha_id);
+CREATE INDEX IF NOT EXISTS idx_publicacao_user_id ON publicacao(user_id);
+CREATE INDEX IF NOT EXISTS idx_publicacao_captcha_id ON publicacao(captcha_id);
