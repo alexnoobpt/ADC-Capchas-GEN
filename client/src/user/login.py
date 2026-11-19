@@ -1,5 +1,6 @@
 """Início de sessão"""
 import sqlite3
+from contextlib import closing
 import hashlib
 import hmac
 from src.storage.db import get_connection
@@ -29,7 +30,7 @@ def log_in():
     username = input("Username: ")
     password = getpass("Password: ")
     try:
-        with get_connection() as conn:
+        with closing(get_connection()) as conn, conn:
                 cursor= conn.execute(
                     """
                     SELECT id, username, password_hash

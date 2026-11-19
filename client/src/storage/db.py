@@ -1,4 +1,5 @@
 import sqlite3
+from contextlib import closing
 from pathlib import Path
 
 # Pasta database/ na raiz do repositório (client/src/storage/db.py -> raiz)
@@ -14,6 +15,7 @@ def get_connection(db_path: Path = DB_PATH) -> sqlite3.Connection:
 
 
 def init_db(db_path: Path = DB_PATH) -> None:
-    with get_connection(db_path) as conn:
+    # closing() fecha a ligação; o "with conn" só faz commit/rollback
+    with closing(get_connection(db_path)) as conn, conn:
         with open(SCHEMA_PATH, "r", encoding="utf-8") as f:
             conn.executescript(f.read())
