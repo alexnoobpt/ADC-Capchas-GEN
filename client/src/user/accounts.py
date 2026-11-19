@@ -12,12 +12,14 @@ def validate_password(password):
 
 def create_account():
     print("Create a new account!")
-    username = input("Choose a username: ")
-    while not username.strip():
-        username = input("The username cannot be empty. Please try again: ")
-    email=input("Enter your email: ")
+    # Sem espaços nas pontas: "ana " e "ana" seriam contas diferentes
+    username = input("Choose a username: ").strip()
+    while not username:
+        username = input("The username cannot be empty. Please try again: ").strip()
+    # O email não distingue maiúsculas: Ana@x.pt e ana@x.pt são o mesmo
+    email=input("Enter your email: ").strip().lower()
     while not email or "@" not in email:
-        email = input("Enter a valid email. Please: ")
+        email = input("Enter a valid email. Please: ").strip().lower()
     password = validate_password(getpass("Create a password (at least 6 characters): "))
     password_hash=hash_password(password)
     try:

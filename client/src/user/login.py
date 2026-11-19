@@ -8,7 +8,7 @@ from getpass import getpass
 
 def log_in():
     print("Login")
-    username = input("Username: ")
+    username = input("Username: ").strip()
     password = getpass("Password: ")
     try:
         with closing(get_connection()) as conn, conn:
