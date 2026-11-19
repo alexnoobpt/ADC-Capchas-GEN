@@ -1,19 +1,9 @@
 """Criação de conta"""
 import sqlite3
 from contextlib import closing
-import hashlib
-import secrets
 from getpass import getpass
 from src.storage.db import get_connection
-
-def hash_password(password):
-    salt=secrets.token_bytes(16)
-    password_hash=hashlib.pbkdf2_hmac(
-        "sha256",
-        password.encode("utf-8"),
-        salt,
-        600_000)
-    return salt.hex()+ ":"+password_hash.hex()
+from src.user.passwords import hash_password
 
 def validate_password(password):
     while len(password) < 6:

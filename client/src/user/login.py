@@ -1,29 +1,10 @@
 """Início de sessão"""
 import sqlite3
 from contextlib import closing
-import hashlib
-import hmac
 from src.storage.db import get_connection
+from src.user.passwords import verify_password
 from getpass import getpass
 
-def verify_password(password, stored_hash):
-    try:
-        salt_hex, hash_hex=stored_hash.split(":",1)
-        salt=bytes.fromhex(salt_hex)
-        original_hash=bytes.fromhex(hash_hex)
-
-        password_hash=hashlib.pbkdf2_hmac(
-            "sha256",
-            password.encode("utf-8"),
-            salt,
-            600_000)
-        return hmac.compare_digest(
-            password_hash,
-            original_hash
-        )
-    except (ValueError,TypeError):
-        return False
-    
 
 def log_in():
     print("Login")
