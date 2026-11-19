@@ -2,7 +2,7 @@
 import sqlite3
 import hashlib
 import hmac
-from database.db import get_connection
+from src.storage.db import get_connection
 from getpass import getpass
 
 def verify_password(password, stored_hash):
