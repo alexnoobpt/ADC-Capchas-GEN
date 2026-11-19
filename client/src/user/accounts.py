@@ -1,9 +1,13 @@
 """Criação de conta"""
+import re
 import sqlite3
 from contextlib import closing
 from getpass import getpass
 from src.storage.db import get_connection
 from src.user.passwords import hash_password
+
+# Formato mínimo: algo@dominio.ext, sem espaços nem um segundo "@"
+EMAIL_PATTERN = re.compile(r"[^@\s]+@[^@\s]+\.[^@\s]+")
 
 def validate_password(password):
     while len(password) < 6:
@@ -18,7 +22,7 @@ def create_account():
         username = input("The username cannot be empty. Please try again: ").strip()
     # O email não distingue maiúsculas: Ana@x.pt e ana@x.pt são o mesmo
     email=input("Enter your email: ").strip().lower()
-    while not email or "@" not in email:
+    while not EMAIL_PATTERN.fullmatch(email):
         email = input("Enter a valid email. Please: ").strip().lower()
     password = validate_password(getpass("Create a password (at least 6 characters): "))
     password_hash=hash_password(password)
