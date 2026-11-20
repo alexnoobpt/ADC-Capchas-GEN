@@ -1,4 +1,4 @@
-from dados import captchas
+from src.captchas.dados import captchas
 
 def ver_captchas():
     if not captchas:

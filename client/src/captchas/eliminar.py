@@ -1,5 +1,5 @@
-from dados import captchas
-from consultar import ver_captchas 
+from src.captchas.dados import captchas
+from src.captchas.consultar import ver_captchas 
 
 def eliminar_captcha():
     if not captchas:
