@@ -111,6 +111,8 @@ def criar_captcha():
             operador=random.choice(["+","-","*","/"])
 
         codigo=f"Resolva a seguinte operação: {num1} {operador} {num2}"
+        if operador=="/":
+            codigo+=" (arredonde a 2 casas decimais)"
         if operador=="+":
             resposta_certa=num1+num2
         elif operador=="-":
@@ -122,8 +124,8 @@ def criar_captcha():
 
         print(codigo)
         try:
-            resposta_user=float(input("Introduza a resposta: "))
-            if resposta_user==resposta_certa:
+            resposta_user=float(input("Introduza a resposta: ").replace(",","."))
+            if abs(resposta_user-resposta_certa)<0.005:
                 print("Resposta correta!")  
             else:
                 print("Resposta incorreta.")
