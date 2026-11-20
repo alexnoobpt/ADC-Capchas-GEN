@@ -20,3 +20,6 @@ BACKGROUND_MAX: int = 255
 # Saída
 OUTPUT_DIR: Path = Path("output")
 OUTPUT_FILENAME: str = "captcha.png"
+
+# Pasta dos downloads. None = descobrir automaticamente a pasta Downloads do utilizador
+DOWNLOADS_DIR: Path | None = None
