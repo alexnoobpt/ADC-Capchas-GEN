@@ -10,10 +10,8 @@ from PIL import Image
 
 from src.config.settings import DOWNLOADS_DIR, OUTPUT_DIR, OUTPUT_FILENAME
 
-# Tamanho máximo do nome do ficheiro (sem extensão)
 MAX_FILENAME_LENGTH = 100
 
-# Nomes que o Windows não permite usar como nome de ficheiro
 WINDOWS_RESERVED_NAMES = {
     "CON", "PRN", "AUX", "NUL",
     *(f"COM{i}" for i in range(1, 10)),
@@ -126,7 +124,6 @@ def _safe_filename(name: str) -> str:
     reservados do Windows (CON, NUL, ...). Se o resultado ficar vazio,
     devolve "captcha".
     """
-    # Evita "meu.png" virar "meu_png.png"
     name = re.sub(r"\.png$", "", name.strip(), flags=re.IGNORECASE)
 
     cleaned = re.sub(r"[^\w\-]", "_", name)[:MAX_FILENAME_LENGTH].strip("_")

@@ -6,7 +6,6 @@ from getpass import getpass
 from src.storage.db import get_connection
 from src.user.passwords import hash_password
 
-# Formato mínimo: algo@dominio.ext, sem espaços nem um segundo "@"
 EMAIL_PATTERN = re.compile(r"[^@\s]+@[^@\s]+\.[^@\s]+")
 
 def validate_password(password):
@@ -16,11 +15,9 @@ def validate_password(password):
 
 def create_account():
     print("Create a new account!")
-    # Sem espaços nas pontas: "ana " e "ana" seriam contas diferentes
     username = input("Choose a username: ").strip()
     while not username:
         username = input("The username cannot be empty. Please try again: ").strip()
-    # O email não distingue maiúsculas: Ana@x.pt e ana@x.pt são o mesmo
     email=input("Enter your email: ").strip().lower()
     while not EMAIL_PATTERN.fullmatch(email):
         email = input("Enter a valid email. Please: ").strip().lower()
