@@ -1,10 +1,31 @@
 import random
 import string
-from dados import captchas
+from src.captchas.dados import captchas
+
+VARIACAO_EMOJI = "️"
+
+
+def _sem_variacao(emoji):
+    # O seletor U+FE0F perde-se muitas vezes ao escrever ou copiar (🌶️ vs 🌶)
+    return emoji.replace(VARIACAO_EMOJI, "")
+
+
+def _ler_emojis(texto, opcoes):
+    """Separa a resposta nos emojis das opções, com ou sem espaços entre eles."""
+    conhecidos = sorted({_sem_variacao(o) for o in opcoes}, key=len, reverse=True)
+    resto = _sem_variacao(texto).replace("|", "").replace(" ", "")
+    encontrados = []
+    while resto:
+        emoji = next((e for e in conhecidos if resto.startswith(e)), None)
+        if emoji is None:
+            emoji = resto[0]
+        encontrados.append(emoji)
+        resto = resto[len(emoji):]
+    return encontrados
 
 def criar_captcha():
-    nome=input("Nome do Captcha: ")
-    if nome == " ":
+    nome=input("Nome do Captcha: ").strip()
+    if not nome:
         print("Pelo menos um nome")
         return
     for c in captchas:
@@ -84,11 +105,11 @@ def criar_captcha():
         opcoes=certos+random.sample(errados,9-quantidade)
         random.shuffle(opcoes)  
         pedido=f"Escolha {quantidade} emojis da categoria {categoria}: "
-        resposta_certa=(sorted(certos))
+        resposta_certa=sorted(_sem_variacao(e) for e in certos)
         print(pedido)
         print("Opções:", " | ".join(opcoes))
         resposta=input("Introduza os emojis escolhidos: ")
-        resposta_user=(sorted(resposta.replace("|","").split()))
+        resposta_user=sorted(_ler_emojis(resposta, opcoes))
         if len(resposta_user)!=quantidade:
             print(f"Deve introduzir exatamente {quantidade} emojis!")
         elif resposta_user==resposta_certa:
@@ -111,6 +132,8 @@ def criar_captcha():
             operador=random.choice(["+","-","*","/"])
 
         codigo=f"Resolva a seguinte operação: {num1} {operador} {num2}"
+        if operador=="/":
+            codigo+=" (arredonde a 2 casas decimais)"
         if operador=="+":
             resposta_certa=num1+num2
         elif operador=="-":
@@ -122,8 +145,8 @@ def criar_captcha():
 
         print(codigo)
         try:
-            resposta_user=float(input("Introduza a resposta: "))
-            if resposta_user==resposta_certa:
+            resposta_user=float(input("Introduza a resposta: ").replace(",","."))
+            if abs(resposta_user-resposta_certa)<0.005:
                 print("Resposta correta!")  
             else:
                 print("Resposta incorreta.")

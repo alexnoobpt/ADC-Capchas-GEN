@@ -1,35 +1,23 @@
 """Início de sessão"""
 import sqlite3
-import hashlib
-import hmac
-from database.db import get_connection
+from contextlib import closing
+from src.storage.db import get_connection
+from src.user.passwords import hash_password, verify_password
 from getpass import getpass
+from functools import cache
 
-def verify_password(password, stored_hash):
-    try:
-        salt_hex, hash_hex=stored_hash.split(":",1)
-        salt=bytes.fromhex(salt_hex)
-        original_hash=bytes.fromhex(hash_hex)
 
-        password_hash=hashlib.pbkdf2_hmac(
-            "sha256",
-            password.encode("utf-8"),
-            salt,
-            600_000)
-        return hmac.compare_digest(
-            password_hash,
-            original_hash
-        )
-    except (ValueError,TypeError):
-        return False
-    
+@cache
+def _dummy_hash():
+    return hash_password("")
+
 
 def log_in():
     print("Login")
-    username = input("Username: ")
+    username = input("Username: ").strip()
     password = getpass("Password: ")
     try:
-        with get_connection() as conn:
+        with closing(get_connection()) as conn, conn:
                 cursor= conn.execute(
                     """
                     SELECT id, username, password_hash
@@ -41,6 +29,8 @@ def log_in():
                 user=cursor.fetchone()
             
         if user is None:
+            # Mesmo custo que uma password errada, para não revelar se o username existe
+            verify_password(password, _dummy_hash())
             print("Invalid username or password.")
             return None
         
@@ -57,4 +47,5 @@ def log_in():
         print("Invalid username or password.")
         return None
     except sqlite3.Error:
-          print("Database error")
+        print("Database error")
+        return None

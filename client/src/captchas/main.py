@@ -1,7 +1,7 @@
-from criar import criar_captcha
-from consultar import ver_captchas
-from editar import editar_captcha
-from eliminar import eliminar_captcha
+from src.captchas.criar import criar_captcha
+from src.captchas.consultar import ver_captchas
+from src.captchas.editar import editar_captcha
+from src.captchas.eliminar import eliminar_captcha
 
 def menu_criação():
     print("Menu de Criação Captcha MAKER")

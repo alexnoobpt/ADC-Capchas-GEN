@@ -9,7 +9,6 @@ Color = tuple[int, int, int]
 IMAGE_WIDTH: int = 200
 IMAGE_HEIGHT: int = 80
 
-# Texto
 DEFAULT_TEXT: str = "CAPTCHA"
 TEXT_COLOR: Color = (0, 0, 0)
 
@@ -17,7 +16,6 @@ TEXT_COLOR: Color = (0, 0, 0)
 BACKGROUND_MIN: int = 180
 BACKGROUND_MAX: int = 255
 
-# Saída
 OUTPUT_DIR: Path = Path("output")
 OUTPUT_FILENAME: str = "captcha.png"
 

@@ -11,14 +11,20 @@ CAPTCHASGEN/
 │   │   ├── app.py             # Ponto de entrada
 │   │   ├── captcha/
 │   │   │   └── generator.py   # Cria a imagem e desenha o texto
+│   │   ├── captchas/          # Menu para criar, ver, editar e eliminar CAPTCHAs
 │   │   ├── config/
 │   │   │   └── settings.py    # Tamanhos, cores, texto, pasta de saída
 │   │   ├── storage/
+│   │   │   ├── db.py          # Ligação e criação da base de dados SQLite
 │   │   │   └── file_storage.py# Guarda a imagem em PNG
+│   │   ├── user/
+│   │   │   ├── main.py        # Menu de login / criação de conta
+│   │   │   ├── accounts.py    # Criação de conta
+│   │   │   └── login.py       # Início de sessão
 │   │   └── utils/
 │   │       └── colors.py      # Cores aleatórias
 │   └── output/                # Imagens geradas (ignorada pelo git)
-├── database/                  # Base de dados (por implementar)
+├── database/                  # databasecode.sql (esquema) e db.sqlite (ignorado pelo git)
 ├── tests/                     # Mesma estrutura que client/src/
 │   ├── captcha/
 │   ├── storage/
@@ -42,7 +48,9 @@ pip install -r requirements.txt
 
 ```bash
 cd client
-python -m src.app
+python -m src.app         # Gera um CAPTCHA
+python -m src.user.main   # Menu de login / criação de conta
+python -m src.captchas.main  # Menu de gestão de CAPTCHAs
 ```
 
 ## Test

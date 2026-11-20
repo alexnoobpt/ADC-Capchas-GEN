@@ -1,18 +1,12 @@
 """Criação de conta"""
+import re
 import sqlite3
-import hashlib
-import secrets
+from contextlib import closing
 from getpass import getpass
-from database.db import get_connection
+from src.storage.db import get_connection
+from src.user.passwords import hash_password
 
-def hash_password(password):
-    salt=secrets.token_bytes(16)
-    password_hash=hashlib.pbkdf2_hmac(
-        "sha256",
-        password.encode("utf-8"),
-        salt,
-        600_000)
-    return salt.hex()+ ":"+password_hash.hex()
+EMAIL_PATTERN = re.compile(r"[^@\s]+@[^@\s]+\.[^@\s]+")
 
 def validate_password(password):
     while len(password) < 6:
@@ -21,16 +15,16 @@ def validate_password(password):
 
 def create_account():
     print("Create a new account!")
-    username = input("Choose a username: ")
-    while not username.strip():
-        username = input("The username cannot be empty. Please try again: ")
-    email=input("Enter your email: ")
-    while not email or "@" not in email:
-        email = input("Enter a valid email. Please: ")
+    username = input("Choose a username: ").strip()
+    while not username:
+        username = input("The username cannot be empty. Please try again: ").strip()
+    email=input("Enter your email: ").strip().lower()
+    while not EMAIL_PATTERN.fullmatch(email):
+        email = input("Enter a valid email. Please: ").strip().lower()
     password = validate_password(getpass("Create a password (at least 6 characters): "))
     password_hash=hash_password(password)
     try:
-        with get_connection() as conn:
+        with closing(get_connection()) as conn, conn:
             conn.execute(
                 """
                 INSERT INTO user (username,email, password_hash)

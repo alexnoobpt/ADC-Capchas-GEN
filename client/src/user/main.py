@@ -1,7 +1,7 @@
-from client.src.user.menu import menu
-from client.src.user.accounts import create_account
-from client.src.user.login import log_in
-from database.db import init_db
+from src.user.menu import menu
+from src.user.accounts import create_account
+from src.user.login import log_in
+from src.storage.db import init_db
 
 def main():
     init_db()
@@ -11,7 +11,7 @@ def main():
         if option=="1":
             session=log_in()
             if session is not None:
-                print("Acess granted")
+                print("Access granted")
         elif option=="2":
             create_account()
         elif option=="3":

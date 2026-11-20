@@ -47,3 +47,17 @@ CREATE TABLE IF NOT EXISTS publicacao (
     FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE,
     FOREIGN KEY (captcha_id) REFERENCES captchas(id) ON DELETE CASCADE
 );
+
+CREATE TRIGGER IF NOT EXISTS captchas_set_changed_at
+AFTER UPDATE ON captchas
+FOR EACH ROW
+WHEN NEW.changed_at IS OLD.changed_at
+BEGIN
+    UPDATE captchas SET changed_at = CURRENT_TIMESTAMP WHERE id = NEW.id;
+END;
+
+CREATE INDEX IF NOT EXISTS idx_captchas_user_id ON captchas(user_id);
+CREATE INDEX IF NOT EXISTS idx_captchas_captcha_type_id ON captchas(captcha_type_id);
+CREATE INDEX IF NOT EXISTS idx_captchas_image_captcha_id ON captchas_image(captcha_id);
+CREATE INDEX IF NOT EXISTS idx_publicacao_user_id ON publicacao(user_id);
+CREATE INDEX IF NOT EXISTS idx_publicacao_captcha_id ON publicacao(captcha_id);
