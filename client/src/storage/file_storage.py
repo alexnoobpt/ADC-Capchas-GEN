@@ -49,6 +49,9 @@ def save_image(
                 image.save(file, format="PNG")
         except FileExistsError:
             continue
+        except Exception:
+            candidate.unlink(missing_ok=True)
+            raise
         return candidate
 
 
