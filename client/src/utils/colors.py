@@ -1,5 +1,3 @@
-"""Funções para gerar cores."""
-
 import random
 
 from src.config.settings import BACKGROUND_MAX, BACKGROUND_MIN, Color

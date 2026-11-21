@@ -1,4 +1,3 @@
-"""Criação de conta"""
 import re
 import sqlite3
 from contextlib import closing
