@@ -1,5 +1,6 @@
 from src.captchas.dados import captchas
 from src.captchas.consultar import ver_captchas
+from src.captchas.criar import gerar_codigo_texto
 
 def editar_captcha():
     if not captchas:
@@ -68,6 +69,9 @@ def editar_captcha():
                 print("Por favor, um número válido")
                 return
             
+            if (nova_dificuldade, novo_tipo) != (c[1], c[2]):
+                # O código antigo deixa de corresponder à nova dificuldade/tipo
+                c[3]=gerar_codigo_texto(nova_dificuldade) if novo_tipo=="1" else None
             c[0]=novo_nome
             c[1]=nova_dificuldade
             c[2]=novo_tipo

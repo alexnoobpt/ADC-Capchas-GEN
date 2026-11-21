@@ -2,6 +2,10 @@ import random
 import string
 from src.captchas.dados import captchas
 
+# Sem £ e §: a fonte das imagens não tem esses símbolos
+SIMBOLOS = "!@#$%&?*+^~»"
+TAMANHO_CODIGO = {"1": 6, "2": 12, "3": 18}
+
 VARIACAO_EMOJI = "️"
 
 
@@ -23,6 +27,10 @@ def _ler_emojis(texto, opcoes):
         resto = resto[len(emoji):]
     return encontrados
 
+def gerar_codigo_texto(dificuldade):
+    return "".join(random.choices(string.ascii_letters + string.digits + SIMBOLOS, k=TAMANHO_CODIGO[dificuldade]))
+
+
 def criar_captcha():
     nome=input("Nome do Captcha: ").strip()
     if not nome:
@@ -40,16 +48,9 @@ def criar_captcha():
     if tipo_de_captcha not in ["1", "2", "3"]:
         print("Tipo de Captcha inválido. Por favor, escolha entre 1, 2 ou 3.")
         return
+    codigo=None
     if tipo_de_captcha=="1":
-
-        if dificuldade=="1":
-            tamanho=6
-        elif dificuldade=="2":
-            tamanho=12
-        else:
-            tamanho=18
-
-        codigo="".join(random.choices(string.ascii_letters + string.digits +"!@£#$§%&?*+^~»", k=tamanho))
+        codigo=gerar_codigo_texto(dificuldade)
         
         print("Captcha: ",codigo)
 
@@ -65,7 +66,7 @@ def criar_captcha():
             ("Quantos números tem o captcha? ",
             sum(1 for c in codigo if c.isdigit())),
             ("Quantas simbolos tem o captcha?",
-            sum(1 for c in codigo if c in "!@£#$§%&?*+^~»")),
+            sum(1 for c in codigo if c in SIMBOLOS)),
         ]
 
         pergunta,resposta_certa=random.choice(perguntas)
@@ -154,6 +155,6 @@ def criar_captcha():
             print("Por favor, introduza um número valido")
         
 
-    captcha=[nome, dificuldade, tipo_de_captcha]
+    captcha=[nome, dificuldade, tipo_de_captcha, codigo]
     captchas.append(captcha)
     print("Captcha criado com sucesso!")
