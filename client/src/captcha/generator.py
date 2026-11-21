@@ -23,7 +23,6 @@ def generate_captcha(
     image = Image.new("RGB", (width, height), background)
     draw = ImageDraw.Draw(image)
 
-    # Mede o texto para o centrar na imagem
     left, top, right, bottom = draw.textbbox((0, 0), text)
     x = (width - (right - left)) / 2 - left
     y = (height - (bottom - top)) / 2 - top

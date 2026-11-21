@@ -1,4 +1,3 @@
-"""Início de sessão"""
 import sqlite3
 from contextlib import closing
 from src.storage.db import get_connection
