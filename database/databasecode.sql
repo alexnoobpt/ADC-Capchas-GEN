@@ -56,6 +56,11 @@ BEGIN
     UPDATE captchas SET changed_at = CURRENT_TIMESTAMP WHERE id = NEW.id;
 END;
 
+INSERT OR IGNORE INTO captchas_type (type_name, description) VALUES
+    ('Texto', 'Desafio baseado em caracteres de texto'),
+    ('Emoji', 'Desafio baseado em sequência ou identificação de emojis'),
+    ('Matemático', 'Desafio baseado em operações matemáticas');
+
 CREATE INDEX IF NOT EXISTS idx_captchas_user_id ON captchas(user_id);
 CREATE INDEX IF NOT EXISTS idx_captchas_captcha_type_id ON captchas(captcha_type_id);
 CREATE INDEX IF NOT EXISTS idx_captchas_image_captcha_id ON captchas_image(captcha_id);
