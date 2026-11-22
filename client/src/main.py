@@ -16,9 +16,9 @@ def menu_principal(session):
         print("4. Sair")
         opcao = input("Escolha uma opção: ").strip()
         if opcao == "1":
-            menu_imagem()
+            menu_imagem(session["user_id"])
         elif opcao == "2":
-            captchas.main()
+            captchas.main(session["user_id"])
         elif opcao == "3":
             print("Sessão terminada.")
             return False
