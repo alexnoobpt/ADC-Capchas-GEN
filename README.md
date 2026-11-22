@@ -11,6 +11,7 @@ CAPTCHASGEN/
 │   │   ├── app.py             # Ponto de entrada
 │   │   ├── captcha/
 │   │   │   └── generator.py   # Cria a imagem e desenha o texto
+│   │   ├── captchas/          # Menu para criar, ver, editar e eliminar CAPTCHAs
 │   │   ├── config/
 │   │   │   └── settings.py    # Tamanhos, cores, texto, pasta de saída
 │   │   ├── storage/
@@ -49,6 +50,7 @@ pip install -r requirements.txt
 cd client
 python -m src.app         # Gera um CAPTCHA
 python -m src.user.main   # Menu de login / criação de conta
+python -m src.captchas.main  # Menu de gestão de CAPTCHAs
 ```
 
 ## Test
