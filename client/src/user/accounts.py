@@ -1,5 +1,6 @@
 """Criação de conta"""
 import sqlite3
+from contextlib import closing
 import hashlib
 import secrets
 from getpass import getpass
@@ -30,7 +31,7 @@ def create_account():
     password = validate_password(getpass("Create a password (at least 6 characters): "))
     password_hash=hash_password(password)
     try:
-        with get_connection() as conn:
+        with closing(get_connection()) as conn, conn:
             conn.execute(
                 """
                 INSERT INTO user (username,email, password_hash)
