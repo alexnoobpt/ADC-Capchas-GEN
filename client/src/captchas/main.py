@@ -9,7 +9,7 @@ def menu_criação():
     print("2. Ver Captchas Criados")
     print("3. Editar Captcha")
     print("4. Eliminar Captchas")
-    print("5. Sair")
+    print("5. Voltar")
 
 def main():
     while True:
@@ -28,7 +28,7 @@ def main():
         elif opcao==4:
             eliminar_captcha()
         elif opcao==5:
-            print("Saindo do programa...Até mais!!")
+            print("A voltar...")
             break
         else:
             print("Opção inválida.")

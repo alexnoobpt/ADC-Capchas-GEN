@@ -12,10 +12,10 @@ def editar_captcha():
         if c[0]==nome_captcha:
             encontrado=True
             print("Captcha encontrado. O que deseja editar?")
-            print("1. Nome")
-            print("2. Dificuldade")
-            print("3. Tipo")
-            print("4.Tudo")
+            print("1 - Editar nome")
+            print("2 - Editar dificuldade")
+            print("3 - Editar tipo")
+            print("4 - Editar tudo")
             try:
                 opcao=int(input("Escolha uma opção: "))
             except ValueError:

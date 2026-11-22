@@ -1,4 +1,3 @@
-"""Menu"""
 def menu():
   
     print(r"""

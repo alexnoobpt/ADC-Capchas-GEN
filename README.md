@@ -8,7 +8,8 @@ A CAPTCHAS GEN project.
 CAPTCHASGEN/
 ├── client/
 │   ├── src/
-│   │   ├── app.py             # Ponto de entrada
+│   │   ├── main.py            # Ponto de entrada: login e menu principal
+│   │   ├── app.py             # Gera a imagem de CAPTCHA
 │   │   ├── captcha/
 │   │   │   └── generator.py   # Cria a imagem e desenha o texto
 │   │   ├── captchas/          # Menu para criar, ver, editar e eliminar CAPTCHAs
@@ -48,6 +49,12 @@ pip install -r requirements.txt
 
 ```bash
 cd client
+python -m src.main        # Aplicação completa: login e depois menu principal
+```
+
+Cada parte também pode ser corrida sozinha:
+
+```bash
 python -m src.app         # Gera um CAPTCHA
 python -m src.user.main   # Menu de login / criação de conta
 python -m src.captchas.main  # Menu de gestão de CAPTCHAs
