@@ -48,6 +48,19 @@ CREATE TABLE IF NOT EXISTS publicacao (
     FOREIGN KEY (captcha_id) REFERENCES captchas(id) ON DELETE CASCADE
 );
 
+CREATE TABLE IF NOT EXISTS publicacao_voto (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    publicacao_id INTEGER NOT NULL,
+    user_id INTEGER NOT NULL,
+    voto INTEGER NOT NULL CHECK (voto IN (1, -1)), -- 1 = Like, -1 = Dislike
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE (publicacao_id, user_id),
+    FOREIGN KEY (publicacao_id) REFERENCES publicacao(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE
+);
+
+
+
 CREATE TRIGGER IF NOT EXISTS captchas_set_changed_at
 AFTER UPDATE ON captchas
 FOR EACH ROW
@@ -55,6 +68,7 @@ WHEN NEW.changed_at IS OLD.changed_at
 BEGIN
     UPDATE captchas SET changed_at = CURRENT_TIMESTAMP WHERE id = NEW.id;
 END;
+
 
 INSERT OR IGNORE INTO captchas_type (type_name, description) VALUES
     ('Texto', 'Desafio baseado em caracteres de texto'),
@@ -67,3 +81,5 @@ CREATE INDEX IF NOT EXISTS idx_captchas_captcha_type_id ON captchas(captcha_type
 CREATE INDEX IF NOT EXISTS idx_captchas_image_captcha_id ON captchas_image(captcha_id);
 CREATE INDEX IF NOT EXISTS idx_publicacao_user_id ON publicacao(user_id);
 CREATE INDEX IF NOT EXISTS idx_publicacao_captcha_id ON publicacao(captcha_id);
+CREATE INDEX IF NOT EXISTS idx_publicacao_voto_pub_id ON publicacao_voto(publicacao_id);
+CREATE INDEX IF NOT EXISTS idx_publicacao_voto_user_id ON publicacao_voto(user_id);
