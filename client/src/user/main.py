@@ -1,7 +1,7 @@
-from client.src.user.menu import menu
-from client.src.user.accounts import create_account
-from client.src.user.login import log_in
-from database.db import init_db
+from src.user.menu import menu
+from src.user.accounts import create_account
+from src.user.login import log_in
+from src.storage.db import init_db
 
 def main():
     init_db()

@@ -1,7 +1,8 @@
 import sqlite3
 from pathlib import Path
 
-BASE_DIR = Path(__file__).resolve().parent
+# Pasta database/ na raiz do repositório (client/src/storage/db.py -> raiz)
+BASE_DIR = Path(__file__).resolve().parents[3] / "database"
 DB_PATH = BASE_DIR / "db.sqlite"
 SCHEMA_PATH = BASE_DIR / "databasecode.sql"
 

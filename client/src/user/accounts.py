@@ -3,7 +3,7 @@ import sqlite3
 import hashlib
 import secrets
 from getpass import getpass
-from database.db import get_connection
+from src.storage.db import get_connection
 
 def hash_password(password):
     salt=secrets.token_bytes(16)
