@@ -121,3 +121,17 @@ def test_safe_filename_nome_longo(tmp_path):
     assert len(nome) <= file_storage.MAX_FILENAME_LENGTH
     path = download_image(generate_captcha("ABC"), "a" * 500, folder=tmp_path)
     assert path.exists()
+
+
+def test_save_image_sem_overwrite_nao_deixa_ficheiro_vazio(tmp_path, monkeypatch):
+    imagem = generate_captcha("ABC")
+
+    def falha(*args, **kwargs):
+        raise OSError("disco cheio")
+
+    monkeypatch.setattr(imagem, "save", falha)
+    try:
+        save_image(imagem, tmp_path, "x.png", overwrite=False)
+    except OSError:
+        pass
+    assert not (tmp_path / "x.png").exists()
