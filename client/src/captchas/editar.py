@@ -1,5 +1,5 @@
-from dados import captchas
-from consultar import ver_captchas
+from src.captchas.dados import captchas
+from src.captchas.consultar import ver_captchas
 
 def editar_captcha():
     if not captchas:
@@ -26,8 +26,8 @@ def editar_captcha():
             nova_dificuldade=c[1]
             novo_tipo=c[2]
             if opcao==1:
-                novo_nome=input("Novo nome do Captcha: ")
-                if novo_nome==" ":
+                novo_nome=input("Novo nome do Captcha: ").strip()
+                if not novo_nome:
                     print("Pelo menos um nome")
                     return
                 for i in captchas:
@@ -48,8 +48,8 @@ def editar_captcha():
                     return 
                 
             elif opcao==4:
-                novo_nome=input("Novo nome do Captcha: ")
-                if novo_nome==" ":
+                novo_nome=input("Novo nome do Captcha: ").strip()
+                if not novo_nome:
                     print("Pelo menos um nome")
                     return
                 for i in captchas:
