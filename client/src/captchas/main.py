@@ -1,0 +1,38 @@
+from criar import criar_captcha
+from consultar import ver_captchas
+from editar import editar_captcha
+from eliminar import eliminar_captcha
+
+def menu_criação():
+    print("Menu de Criação Captcha MAKER")
+    print("1. Criar Captcha")
+    print("2. Ver Captchas Criados")
+    print("3. Editar Captcha")
+    print("4. Eliminar Captchas")
+    print("5. Sair")
+
+def main():
+    while True:
+        menu_criação()
+        try:
+            opcao=int(input("Escolha uma opção: "))
+        except ValueError:
+            print("Por favor, introduza um número válido.")
+            continue
+        if opcao==1:
+            criar_captcha()
+        elif opcao==2:
+            ver_captchas()
+        elif opcao==3:
+            editar_captcha()
+        elif opcao==4:
+            eliminar_captcha()
+        elif opcao==5:
+            print("Saindo do programa...Até mais!!")
+            break
+        else:
+            print("Opção inválida.")
+
+if __name__ == "__main__":
+    main()
+
