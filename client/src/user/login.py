@@ -48,4 +48,5 @@ def log_in():
         print("Invalid username or password.")
         return None
     except sqlite3.Error:
-          print("Database error")
+        print("Database error")
+        return None
