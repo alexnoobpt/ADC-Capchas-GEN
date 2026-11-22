@@ -18,6 +18,7 @@ def run(tmp_path, monkeypatch):
     called = []
     monkeypatch.setattr(main_module, "menu_imagem", lambda user_id: called.append("imagem"))
     monkeypatch.setattr(main_module.captchas, "main", lambda user_id: called.append("captchas"))
+    monkeypatch.setattr(main_module.comunidade, "main", lambda user_id: called.append("comunidade"))
 
     def feed(*values):
         it = iter(values)
@@ -43,11 +44,11 @@ def test_wrong_password_does_not_open_main_menu(run, capsys):
 
 
 def test_login_opens_main_menu_options(run):
-    assert run(*REGISTAR, "1", "ana", "segredo1", "1", "2", "4") == ["imagem", "captchas"]
+    assert run(*REGISTAR, "1", "ana", "segredo1", "1", "2", "3", "5") == ["imagem", "captchas", "comunidade"]
 
 
 def test_logout_goes_back_to_login(run, capsys):
-    run(*REGISTAR, "1", "ana", "segredo1", "3", "3")
+    run(*REGISTAR, "1", "ana", "segredo1", "4", "3")
     out = capsys.readouterr().out
     assert "Sessão terminada." in out
     assert out.rstrip().endswith("Exiting...")
