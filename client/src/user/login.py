@@ -2,8 +2,14 @@
 import sqlite3
 from contextlib import closing
 from src.storage.db import get_connection
-from src.user.passwords import verify_password
+from src.user.passwords import hash_password, verify_password
 from getpass import getpass
+from functools import cache
+
+
+@cache
+def _dummy_hash():
+    return hash_password("")
 
 
 def log_in():
@@ -23,6 +29,9 @@ def log_in():
                 user=cursor.fetchone()
             
         if user is None:
+            # Faz o mesmo trabalho que uma password errada, para o tempo de
+            # resposta não revelar que o username não existe
+            verify_password(password, _dummy_hash())
             print("Invalid username or password.")
             return None
         
