@@ -2,10 +2,8 @@
 
 from pathlib import Path
 
-# Tipo de cor RGB: (vermelho, verde, azul), cada valor entre 0 e 255
 Color = tuple[int, int, int]
 
-# Dimensões da imagem (em píxeis)
 IMAGE_WIDTH: int = 200
 IMAGE_HEIGHT: int = 80
 
