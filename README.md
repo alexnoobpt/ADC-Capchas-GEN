@@ -13,6 +13,8 @@ CAPTCHASGEN/
 │   │   ├── captcha/
 │   │   │   └── generator.py   # Cria a imagem; nos CAPTCHAs de texto, risca o código com traços
 │   │   ├── captchas/          # Menu para criar, ver, editar e eliminar CAPTCHAs
+│   │   │   ├── desafios.py    # Gera e resolve os desafios de cada tipo
+│   │   │   ├── repositorio.py # Guarda os CAPTCHAs de cada utilizador na base de dados
 │   │   │   └── imagem.py      # Mostrar no terminal / baixar a imagem de um CAPTCHA de texto
 │   │   ├── config/
 │   │   │   └── settings.py    # Tamanhos, cores, texto, pasta de saída
