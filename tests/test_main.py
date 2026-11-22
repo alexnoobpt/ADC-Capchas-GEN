@@ -16,7 +16,7 @@ def run(tmp_path, monkeypatch):
     monkeypatch.setattr(login, "get_connection", lambda: db.get_connection(path))
 
     called = []
-    monkeypatch.setattr(main_module.app, "main", lambda: called.append("imagem"))
+    monkeypatch.setattr(main_module, "menu_imagem", lambda: called.append("imagem"))
     monkeypatch.setattr(main_module.captchas, "main", lambda: called.append("captchas"))
 
     def feed(*values):
