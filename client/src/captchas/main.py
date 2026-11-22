@@ -2,6 +2,8 @@ from src.captchas.criar import criar_captcha
 from src.captchas.consultar import ver_captchas
 from src.captchas.editar import editar_captcha
 from src.captchas.eliminar import eliminar_captcha
+from src.storage.db import init_db
+from src.user.main import authenticate
 
 def menu_criação():
     print("Menu de Criação Captcha MAKER")
@@ -11,7 +13,7 @@ def menu_criação():
     print("4. Eliminar Captchas")
     print("5. Voltar")
 
-def main():
+def main(user_id):
     while True:
         menu_criação()
         try:
@@ -20,13 +22,13 @@ def main():
             print("Por favor, introduza um número válido.")
             continue
         if opcao==1:
-            criar_captcha()
+            criar_captcha(user_id)
         elif opcao==2:
-            ver_captchas()
+            ver_captchas(user_id)
         elif opcao==3:
-            editar_captcha()
+            editar_captcha(user_id)
         elif opcao==4:
-            eliminar_captcha()
+            eliminar_captcha(user_id)
         elif opcao==5:
             print("A voltar...")
             break
@@ -34,5 +36,7 @@ def main():
             print("Opção inválida.")
 
 if __name__ == "__main__":
-    main()
-
+    init_db()
+    session = authenticate()
+    if session is not None:
+        main(session["user_id"])

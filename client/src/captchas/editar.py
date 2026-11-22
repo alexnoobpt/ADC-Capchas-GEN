@@ -1,78 +1,74 @@
-from src.captchas.dados import captchas
+from src.captchas import desafios, repositorio
 from src.captchas.consultar import ver_captchas
 
-def editar_captcha():
-    if not captchas:
-            print("Nenhum Captcha criado ainda.")
-            return
-    ver_captchas()
-    nome_captcha=input("Digite o nome do Captcha que deseja editar: ")
-    encontrado=False
-    for c in captchas:
-        if c[0]==nome_captcha:
-            encontrado=True
-            print("Captcha encontrado. O que deseja editar?")
-            print("1 - Editar nome")
-            print("2 - Editar dificuldade")
-            print("3 - Editar tipo")
-            print("4 - Editar tudo")
-            try:
-                opcao=int(input("Escolha uma opção: "))
-            except ValueError:
-                print("Opção inválida.")
-                return
 
-            novo_nome=c[0]
-            nova_dificuldade=c[1]
-            novo_tipo=c[2]
-            if opcao==1:
-                novo_nome=input("Novo nome do Captcha: ").strip()
-                if not novo_nome:
-                    print("Pelo menos um nome")
-                    return
-                for i in captchas:
-                        if i!=c and i[0]==novo_nome:
-                            print("Esse nome já se encontra registrado!")
-                            return
+def _pedir_nome(user_id, captcha):
+    novo_nome=input("Novo nome do Captcha: ").strip()
+    if not novo_nome:
+        print("Pelo menos um nome")
+        return None
+    outro=repositorio.obter(user_id, novo_nome)
+    if outro and outro["id"]!=captcha["id"]:
+        print("Esse nome já se encontra registrado!")
+        return None
+    return novo_nome
 
-            elif opcao==2:
-                nova_dificuldade=input("Nova dificuldade (1-Fácil, 2-Médio, 3-Difícil): ")
-                if nova_dificuldade not in ["1", "2", "3"]:
-                    print("Dificuldade inválida.")
-                    return 
-                                   
-            elif opcao==3:
-                novo_tipo=input("Novo tipo de Captcha (1-Texto, 2-Emoji, 3-Matemático): ")
-                if novo_tipo not in ["1", "2", "3"]:
-                    print("Tipo de Captcha inválido.")
-                    return 
-                
-            elif opcao==4:
-                novo_nome=input("Novo nome do Captcha: ").strip()
-                if not novo_nome:
-                    print("Pelo menos um nome")
-                    return
-                for i in captchas:
-                    if i!=c and i[0]==novo_nome:
-                        print("Esse nome já se encontra registrado!")
-                        return
-                nova_dificuldade=input("Nova dificuldade (1-Fácil, 2-Médio, 3-Difícil): ")
-                if nova_dificuldade not in ["1", "2", "3"]:
-                    print("Dificuldade inválido.")
-                    return 
-                novo_tipo=input("Novo tipo de Captcha (1-Texto, 2-Emoji, 3-Matemático): ")
-                if novo_tipo not in ["1", "2", "3"]:
-                    print("Tipo de Captcha inválido.")
-                    return 
-            else:
-                print("Por favor, um número válido")
-                return
-            
-            c[0]=novo_nome
-            c[1]=nova_dificuldade
-            c[2]=novo_tipo
 
-            print("Captcha atualizado com sucesso!")
-            break
-    if not encontrado:
+def _pedir_dificuldade():
+    dificuldade=input("Nova dificuldade (1-Fácil, 2-Médio, 3-Difícil): ")
+    if dificuldade not in ["1", "2", "3"]:
+        print("Dificuldade inválida.")
+        return None
+    return dificuldade
+
+
+def _pedir_tipo():
+    tipo=input("Novo tipo de Captcha (1-Texto, 2-Emoji, 3-Matemático): ")
+    if tipo not in ["1", "2", "3"]:
+        print("Tipo de Captcha inválido.")
+        return None
+    return tipo
+
+
+def editar_captcha(user_id):
+    if not repositorio.listar(user_id):
+        print("Nenhum Captcha criado ainda.")
+        return
+    ver_captchas(user_id)
+    nome_captcha=input("Digite o nome do Captcha que deseja editar: ").strip()
+    captcha=repositorio.obter(user_id, nome_captcha)
+    if captcha is None:
         print("Captcha não encontrado.")
+        return
+
+    print("Captcha encontrado. O que deseja editar?")
+    print("1 - Editar nome")
+    print("2 - Editar dificuldade")
+    print("3 - Editar tipo")
+    print("4 - Editar tudo")
+    opcao=input("Escolha uma opção: ").strip()
+    if opcao not in ["1", "2", "3", "4"]:
+        print("Opção inválida.")
+        return
+
+    novo={"nome": captcha["nome"], "dificuldade": captcha["dificuldade"], "tipo": captcha["tipo"]}
+    if opcao in ["1", "4"]:
+        novo["nome"]=_pedir_nome(user_id, captcha)
+    if opcao in ["2", "4"] and novo["nome"]:
+        novo["dificuldade"]=_pedir_dificuldade()
+    if opcao in ["3", "4"] and novo["nome"] and novo["dificuldade"]:
+        novo["tipo"]=_pedir_tipo()
+    if not all(novo.values()):
+        return
+
+    if (novo["dificuldade"], novo["tipo"]) != (captcha["dificuldade"], captcha["tipo"]):
+        # O desafio antigo deixa de corresponder à nova dificuldade/tipo
+        captcha["desafio"], captcha["solucao"] = desafios.gerar(novo["tipo"], novo["dificuldade"])
+    captcha.update(novo)
+
+    try:
+        repositorio.atualizar(captcha)
+    except repositorio.NomeRepetido:
+        print("Esse nome já se encontra registrado!")
+        return
+    print("Captcha atualizado com sucesso!")

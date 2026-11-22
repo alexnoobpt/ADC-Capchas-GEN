@@ -11,8 +11,11 @@ CAPTCHASGEN/
 │   │   ├── main.py            # Ponto de entrada: login e menu principal
 │   │   ├── app.py             # Gera a imagem de CAPTCHA
 │   │   ├── captcha/
-│   │   │   └── generator.py   # Cria a imagem e desenha o texto
+│   │   │   └── generator.py   # Cria a imagem; nos CAPTCHAs de texto, risca o código com traços
 │   │   ├── captchas/          # Menu para criar, ver, editar e eliminar CAPTCHAs
+│   │   │   ├── desafios.py    # Gera e resolve os desafios de cada tipo
+│   │   │   ├── repositorio.py # Guarda os CAPTCHAs de cada utilizador na base de dados
+│   │   │   └── imagem.py      # Mostrar no terminal / baixar a imagem de um CAPTCHA de texto
 │   │   ├── config/
 │   │   │   └── settings.py    # Tamanhos, cores, texto, pasta de saída
 │   │   ├── storage/
@@ -23,12 +26,15 @@ CAPTCHASGEN/
 │   │   │   ├── accounts.py    # Criação de conta
 │   │   │   └── login.py       # Início de sessão
 │   │   └── utils/
-│   │       └── colors.py      # Cores aleatórias
+│   │       ├── colors.py      # Cores aleatórias
+│   │       └── terminal.py    # Mostra imagens no terminal
 │   └── output/                # Imagens geradas (ignorada pelo git)
 ├── database/                  # databasecode.sql (esquema) e db.sqlite (ignorado pelo git)
 ├── tests/                     # Mesma estrutura que client/src/
 │   ├── captcha/
+│   ├── captchas/
 │   ├── storage/
+│   ├── user/
 │   ├── utils/
 │   └── test_app.py
 ├── pytest.ini                 # Diz ao pytest para importar a partir de client/
