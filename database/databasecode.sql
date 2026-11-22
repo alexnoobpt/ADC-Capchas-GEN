@@ -47,3 +47,12 @@ CREATE TABLE IF NOT EXISTS publicacao (
     FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE,
     FOREIGN KEY (captcha_id) REFERENCES captchas(id) ON DELETE CASCADE
 );
+
+-- changed_at só tem DEFAULT no INSERT; este trigger atualiza-o em cada UPDATE
+CREATE TRIGGER IF NOT EXISTS captchas_set_changed_at
+AFTER UPDATE ON captchas
+FOR EACH ROW
+WHEN NEW.changed_at IS OLD.changed_at
+BEGIN
+    UPDATE captchas SET changed_at = CURRENT_TIMESTAMP WHERE id = NEW.id;
+END;
