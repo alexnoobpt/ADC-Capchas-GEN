@@ -132,9 +132,9 @@ def criar_captcha():
             num2=random.randint(50,100)
             operador=random.choice(["+","-","*","/"])
 
-        codigo=f"Resolva a seguinte operação: {num1} {operador} {num2}"
+        enunciado=f"Resolva a seguinte operação: {num1} {operador} {num2}"
         if operador=="/":
-            codigo+=" (arredonde a 2 casas decimais)"
+            enunciado+=" (arredonde a 2 casas decimais)"
         if operador=="+":
             resposta_certa=num1+num2
         elif operador=="-":
@@ -144,7 +144,7 @@ def criar_captcha():
         else:
             resposta_certa=round(num1/num2,2)
 
-        print(codigo)
+        print(enunciado)
         try:
             resposta_user=float(input("Introduza a resposta: ").replace(",","."))
             if abs(resposta_user-resposta_certa)<0.005:
