@@ -6,7 +6,6 @@ from src.user import accounts, login, passwords
 
 @pytest.fixture(autouse=True)
 def fast_hashing(monkeypatch):
-    # 600k iterações tornam cada teste lento; o algoritmo é o mesmo
     monkeypatch.setattr(passwords, "ITERATIONS", 1_000)
     login._dummy_hash.cache_clear()
 

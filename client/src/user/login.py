@@ -29,8 +29,7 @@ def log_in():
                 user=cursor.fetchone()
             
         if user is None:
-            # Faz o mesmo trabalho que uma password errada, para o tempo de
-            # resposta não revelar que o username não existe
+            # Mesmo custo que uma password errada, para não revelar se o username existe
             verify_password(password, _dummy_hash())
             print("Invalid username or password.")
             return None

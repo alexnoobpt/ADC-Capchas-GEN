@@ -34,7 +34,6 @@ def test_login_with_wrong_password_fails(db_path, answers, capsys):
 
 
 def test_unknown_user_still_runs_password_check(db_path, answers, monkeypatch):
-    # O tempo de resposta não pode revelar se o username existe
     calls = []
     real_verify = passwords.verify_password
     monkeypatch.setattr(login, "verify_password", lambda *a: calls.append(a) or real_verify(*a))

@@ -3,7 +3,6 @@ import hashlib
 import hmac
 import secrets
 
-# Usado tanto na criação de conta como no login: mudar só num sítio partia os logins
 ALGORITHM = "sha256"
 ITERATIONS = 600_000
 SALT_BYTES = 16

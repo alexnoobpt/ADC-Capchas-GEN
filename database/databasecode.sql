@@ -48,7 +48,6 @@ CREATE TABLE IF NOT EXISTS publicacao (
     FOREIGN KEY (captcha_id) REFERENCES captchas(id) ON DELETE CASCADE
 );
 
--- changed_at só tem DEFAULT no INSERT; este trigger atualiza-o em cada UPDATE
 CREATE TRIGGER IF NOT EXISTS captchas_set_changed_at
 AFTER UPDATE ON captchas
 FOR EACH ROW
@@ -57,8 +56,6 @@ BEGIN
     UPDATE captchas SET changed_at = CURRENT_TIMESTAMP WHERE id = NEW.id;
 END;
 
--- Índices nas chaves estrangeiras: o SQLite não os cria sozinho e sem eles
--- as pesquisas por utilizador/captcha e os ON DELETE CASCADE percorrem a tabela toda
 CREATE INDEX IF NOT EXISTS idx_captchas_user_id ON captchas(user_id);
 CREATE INDEX IF NOT EXISTS idx_captchas_captcha_type_id ON captchas(captcha_type_id);
 CREATE INDEX IF NOT EXISTS idx_captchas_image_captcha_id ON captchas_image(captcha_id);

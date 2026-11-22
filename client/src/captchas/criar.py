@@ -18,7 +18,6 @@ def _ler_emojis(texto, opcoes):
     while resto:
         emoji = next((e for e in conhecidos if resto.startswith(e)), None)
         if emoji is None:
-            # Carácter que não é uma das opções: conta como um emoji errado
             emoji = resto[0]
         encontrados.append(emoji)
         resto = resto[len(emoji):]
