@@ -3,8 +3,8 @@ import string
 from src.captchas.dados import captchas
 
 def criar_captcha():
-    nome=input("Nome do Captcha: ")
-    if nome == " ":
+    nome=input("Nome do Captcha: ").strip()
+    if not nome:
         print("Pelo menos um nome")
         return
     for c in captchas:
