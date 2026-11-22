@@ -62,6 +62,7 @@ INSERT OR IGNORE INTO captchas_type (type_name, description) VALUES
     ('Matemático', 'Desafio baseado em operações matemáticas');
 
 CREATE INDEX IF NOT EXISTS idx_captchas_user_id ON captchas(user_id);
+CREATE UNIQUE INDEX IF NOT EXISTS idx_captchas_user_name ON captchas(user_id, name);
 CREATE INDEX IF NOT EXISTS idx_captchas_captcha_type_id ON captchas(captcha_type_id);
 CREATE INDEX IF NOT EXISTS idx_captchas_image_captcha_id ON captchas_image(captcha_id);
 CREATE INDEX IF NOT EXISTS idx_publicacao_user_id ON publicacao(user_id);
