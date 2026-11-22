@@ -1,6 +1,6 @@
 import random
 import string
-from dados import captchas
+from src.captchas.dados import captchas
 
 def criar_captcha():
     nome=input("Nome do Captcha: ")
